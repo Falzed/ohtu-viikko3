@@ -36,8 +36,7 @@ public class App {
                 break;
             }
             command(command);
-        }
-    }
+        }}
 
     public void command(String command) {
         if (command.equals("new")) {
