@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AuthenticationService {
 
     private UserDao userDao;
-    
+
     @Autowired
     public AuthenticationService(UserDao userDao) {
         this.userDao = userDao;
@@ -19,9 +19,8 @@ public class AuthenticationService {
 
     public boolean logIn(String username, String password) {
         for (User user : userDao.listAll()) {
-            if (user.getUsername().equals(username)
-                    && user.getPassword().equals(password)) {
-                return true;
+            if (user.getUsername().equals(username))  {
+                return user.getPassword().equals(password);
             }
         }
 
@@ -29,25 +28,24 @@ public class AuthenticationService {
     }
 
     public boolean createUser(String username, String password) {
-        if (userDao.findByName(username) != null) {
+        if (userDao.findByName(username) != null || invalid(username,password)) {
             return false;
         }
-
-        if (invalid(username, password)) {
-            return false;
-        }
-
         userDao.add(new User(username, password));
-
         return true;
     }
 
     private boolean invalid(String username, String password) {
         // validity check of username and password
-        if(username.length()<3 || password.matches("[a-zA-Z]*") || 
-                password.length()<8) {
+        if (usernameInvalid(username)) {
             return true;
         }
-        return false;
+        return passwordInvalid(password);
+    }
+    private boolean usernameInvalid(String username) {
+        return (username.length() < 3);
+    }
+    private boolean passwordInvalid(String password) {
+        return (password.matches("[a-zA-Z]*") || password.length() < 8);
     }
 }
