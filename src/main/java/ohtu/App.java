@@ -1,7 +1,7 @@
 package ohtu;
 
 import ohtu.data_access.InMemoryUserDao;
-import ohtu.data_access.UserDao;
+import ohtu.data_access.FileUserDAO;
 import ohtu.io.ConsoleIO;
 import ohtu.io.IO;
 import ohtu.services.AuthenticationService;
@@ -9,6 +9,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 @Component
 public class App {
@@ -70,8 +72,9 @@ public class App {
 //        IO io = new ConsoleIO();
 //        AuthenticationService auth = new AuthenticationService(dao);
 //        new App(io, auth).run();
-        ApplicationContext ctx = new FileSystemXmlApplicationContext("src/main/resources/spring-context.xml");
 
+        ApplicationContext ctx = new FileSystemXmlApplicationContext("src/main/resources/spring-context.xml");
+        FileUserDAO fileUserDAO = (FileUserDAO) ctx.getBean("fileUserDAO");
         App application = ctx.getBean(App.class);
         application.run();
     }
