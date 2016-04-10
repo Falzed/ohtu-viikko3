@@ -72,7 +72,6 @@ public class App {
 //        IO io = new ConsoleIO();
 //        AuthenticationService auth = new AuthenticationService(dao);
 //        new App(io, auth).run();
-
         ApplicationContext ctx = new FileSystemXmlApplicationContext("src/main/resources/spring-context.xml");
         FileUserDAO fileUserDAO = (FileUserDAO) ctx.getBean("fileUserDAO");
         App application = ctx.getBean(App.class);
